@@ -52,3 +52,8 @@ steps:
     codeCoverageTool: "Cobertura"
     summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/cobertura/coverage.xml"
     failIfCoverageEmpty: true
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: "$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar"
+    artifactName: ProjectAOutput
