@@ -39,5 +39,5 @@ steps:
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: "$(System.DefaultWorkingDirectory)/target/ProjectA?.jar"
+    targetPath: "$(System.DefaultWorkingDirectory)/target/[a-zA-Z0-9.].jar"
     artifactName: ProjectAOutput
