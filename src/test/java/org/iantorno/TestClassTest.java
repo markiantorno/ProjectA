@@ -7,7 +7,7 @@ class TestClassTest {
 
     @Test
     void addTwoNumbers() {
-        Assertions.assertEquals(3, TestClass.addTwoNumbers(1, 2));
+        Assertions.assertEquals(4, TestClass.addTwoNumbers(1, 2));
     }
 
     @Test
