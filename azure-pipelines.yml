@@ -22,8 +22,11 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      v=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-      echo "##vso[release.updatereleasename]$v"
+      [xml]$pomXml = Get-Content .\pom.xml
+      # version
+      Write-Host $pomXml.project.version
+      $version=$pomXml.project.version
+      Write-Host "##vso[task.setvariable variable=version]$version"
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
