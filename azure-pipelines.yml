@@ -31,6 +31,11 @@ steps:
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package cobertura:cobertura'
 
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 'env | sort'
+
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: "Cobertura"
