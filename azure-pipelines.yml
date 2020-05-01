@@ -61,7 +61,7 @@ steps:
       failIfCoverageEmpty: true
 
   - task: PublishPipelineArtifact@1
-    condition: eq(vmImage, 'ubuntu-16.04')
+    condition: eq(imageName, 'ubuntu-16.04')
     inputs:
       targetPath: "$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar"
       artifactName: ProjectAOutput
