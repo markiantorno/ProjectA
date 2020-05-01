@@ -60,6 +60,6 @@ steps:
 
 - task: NexusIqPipelineTask@1
   inputs:
-    nexusIqService: 'Sonatype Snapshots'
+    nexusIqService: 'Sonatype Nexus'
     applicationId: 'ProjectA'
     stage: 'Build'
