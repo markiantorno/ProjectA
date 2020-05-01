@@ -21,6 +21,9 @@ strategy:
 pool:
   vmImage: $(imageName)
 
+variables:
+  currentImage: $(imageName)
+
 steps:
 
   - task: PowerShell@2
@@ -53,6 +56,7 @@ steps:
   #    reportDirectory: "$(System.DefaultWorkingDirectory)/**/site/jacoco"
   #    failIfCoverageEmpty: true
   - bash: echo $(version)
+  - bash: echo variables.currentImage
 
   - task: PublishCodeCoverageResults@1
     inputs:
