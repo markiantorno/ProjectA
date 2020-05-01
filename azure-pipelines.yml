@@ -66,4 +66,4 @@ steps:
     artifactId: 'ProjectA'
     artifactVersion: $(version)
     packaging: 'jar'
-    fileName: 'ProjectA-$(version).jar'
+    fileName: "$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar"
