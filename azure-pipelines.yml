@@ -57,3 +57,9 @@ steps:
   inputs:
     targetPath: "$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar"
     artifactName: ProjectAOutput
+
+- task: NexusIqPipelineTask@1
+  inputs:
+    nexusIqService: 'Sonatype Snapshots'
+    applicationId: 'ProjectA'
+    stage: 'Build'
