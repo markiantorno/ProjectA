@@ -58,8 +58,12 @@ steps:
     targetPath: "$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar"
     artifactName: ProjectAOutput
 
-- task: NexusIqPipelineTask@1
+- task: nexusArtifactUpload@0
   inputs:
-    nexusIqService: 'Sonatype Nexus'
-    applicationId: 'ProjectA'
-    stage: 'Build'
+    serverEndpoint: 'Sonatype Nexus Repository service connection'
+    repositoryId: 'ProjectA'
+    groupId: 'iantorno'
+    artifactId: 'ProjectA'
+    artifactVersion: $(version)
+    packaging: 'jar'
+    fileName: 'ProjectA-$(version).jar'
