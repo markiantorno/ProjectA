@@ -54,8 +54,6 @@ steps:
   #    failIfCoverageEmpty: true
   - bash: echo $(version)
 
-  - bash: echo $(imageName)
-
   - task: PublishCodeCoverageResults@1
     inputs:
       codeCoverageTool: "Cobertura"
@@ -63,6 +61,7 @@ steps:
       failIfCoverageEmpty: true
 
   - task: PublishPipelineArtifact@1
+    condition: eq($(imageName), ubuntu-16.04)
     inputs:
       targetPath: "$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar"
       artifactName: ProjectAOutput
