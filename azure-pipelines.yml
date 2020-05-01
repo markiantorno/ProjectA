@@ -1,10 +1,7 @@
 # Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-- master
+- '*'
 
 strategy:
   matrix:
@@ -20,6 +17,17 @@ pool:
   vmImage: $(imageName)
 
 steps:
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      [xml]$pomXml = Get-Content .\pom.xml
+      # version
+      Write-Host $pomXml.project.version
+      $version=$pomXml.project.version
+      Write-Host "##vso[task.setvariable variable=version]$version"
+
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
@@ -39,9 +47,28 @@ steps:
 #    summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/jacoco/jacoco.xml"
 #    reportDirectory: "$(System.DefaultWorkingDirectory)/**/site/jacoco"
 #    failIfCoverageEmpty: true
+- bash: echo $(version)
 
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: "Cobertura"
     summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/cobertura/coverage.xml"
     failIfCoverageEmpty: true
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: "$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar"
+    artifactName: ProjectAOutput
+
+- task: nexusArtifactUpload@0
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/release'))
+  inputs:
+    serverEndpoint: 'Sonatype Nexus Repository service connection'
+    repositoryId: 'ProjectA'
+    groupId: 'iantorno'
+    artifactId: 'ProjectA'
+    artifactVersion: $(version)
+    packaging: 'jar'
+    fileName: "$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar"
+
+
