@@ -64,11 +64,25 @@ steps:
       summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/cobertura/coverage.xml"
       failIfCoverageEmpty: true
 
-  - task: PublishPipelineArtifact@1
-    condition: eq(variables.currentImage, 'ubuntu-16.04')
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
     inputs:
-      targetPath: "$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar"
-      artifactName: ProjectAOutput
+      SourceFolder: '$(system.defaultworkingdirectory)'
+      Contents: 'ProjectA-$(version).jar'
+      TargetFolder: '$(build.artifactstagingdirectory)'
+    condition: succeededOrFailed()
+
+  - task: PublishBuildArtifacts@1
+    condition: eq(variables.currentImage, 'ubuntu-16.04')
+    displayName: 'Publish Artifact: drop'
+    inputs:
+      PathtoPublish: '$(build.artifactstagingdirectory)'
+
+  # - task: PublishPipelineArtifact@1
+  #   condition: eq(variables.currentImage, 'ubuntu-16.04')
+  #   inputs:
+  #     targetPath: "$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar"
+  #     artifactName: ProjectAOutput
 
 # - task: nexusArtifactUpload@0
 #   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/release'))
