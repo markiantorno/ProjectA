@@ -68,7 +68,7 @@ steps:
     displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
     inputs:
       SourceFolder: '$(system.defaultworkingdirectory)'
-      Contents: 'ProjectA-$(version).jar'
+      Contents: '$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar'
       TargetFolder: '$(build.artifactstagingdirectory)'
     condition: succeededOrFailed()
 
