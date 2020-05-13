@@ -1,13 +1,10 @@
-# Maven
-
 trigger:
-  branches:
-    include:
-      - '*'
-  # pr:
-  # - master
-  # - release
+  - master
 
+pr:
+  - master
+
+# Different users have different machine setups, we run the build three times, on ubuntu, osx, and windows
 strategy:
   matrix:
     linux:
@@ -23,9 +20,9 @@ pool:
 
 variables:
   currentImage: $(imageName)
+  VERSION:
 
 steps:
-
   - task: PowerShell@2
     inputs:
       targetType: 'inline'
@@ -47,14 +44,6 @@ steps:
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       goals: 'package cobertura:cobertura'
 
-    # Publish code coverage results
-    # Publish JaCoCo code coverage results from a build
-  #- task: PublishCodeCoverageResults@1
-  #  inputs:
-  #    codeCoverageTool: "JaCoCo"
-  #    summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/jacoco/jacoco.xml"
-  #    reportDirectory: "$(System.DefaultWorkingDirectory)/**/site/jacoco"
-  #    failIfCoverageEmpty: true
   - bash: echo $(version)
   - bash: echo $(variables.currentImage)
 
@@ -64,21 +53,38 @@ steps:
       summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/cobertura/coverage.xml"
       failIfCoverageEmpty: true
 
-  - task: PublishPipelineArtifact@1
-    condition: eq(variables.currentImage, 'ubuntu-16.04')
-    inputs:
-      targetPath: "$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar"
-      artifactName: ProjectAOutput
+  # Azure pipelines cannot pass variables between pipelines, but it can pass files, so we
+  # pass the build id (ex: 1.1.13-SNAPSHOT) as a string in a file. This used to be used for
+  # the nexus upload tool, but we no longer use the stock tool. This is only here for debugging
+  # now, and to remind me of how sad I was when I was trying to get this to work.
+  - bash: |
+      echo $(version)
+      VERSION=$(version)
+      echo "$VERSION" > $(System.DefaultWorkingDirectory)/VERSION
+    condition: and(eq(variables.currentImage, 'ubuntu-16.04'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
-# - task: nexusArtifactUpload@0
-#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/release'))
-#   inputs:
-#     serverEndpoint: 'Sonatype Nexus Repository service connection'
-#     repositoryId: 'ProjectA'
-#     groupId: 'iantorno'
-#     artifactId: 'ProjectA'
-#     artifactVersion: $(version)
-#     packaging: 'jar'
-#     fileName: "$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar"
+  # Copies the VERSION file containing the build id (ex: 1.1.13-SNAPSHOT) to the staging directory
+  - task: CopyFiles@2
+    condition: and(eq(variables.currentImage, 'ubuntu-16.04'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+    inputs:
+      SourceFolder: '$(System.Defaultworkingdirectory)'
+      Contents: "$(System.DefaultWorkingDirectory)/VERSION"
+      TargetFolder: '$(build.artifactstagingdirectory)'
+
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+    inputs:
+      SourceFolder: '$(system.defaultworkingdirectory)'
+      Contents: '$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar'
+      TargetFolder: '$(build.artifactstagingdirectory)'
+    condition: and(eq(variables.currentImage, 'ubuntu-16.04'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+  - task: PublishBuildArtifacts@1
+    condition: and(eq(variables.currentImage, 'ubuntu-16.04'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: 'Publish Artifact: drop'
+    inputs:
+      PathtoPublish: '$(build.artifactstagingdirectory)'
+
 
 
