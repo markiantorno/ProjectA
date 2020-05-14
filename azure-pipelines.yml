@@ -90,7 +90,7 @@ steps:
     displayName: 'Change version in pom.xml to 1.1.13'
     inputs:
       mavenPomFile: '$(System.DefaultWorkingDirectory)/pom.xml'
-      goals: ' release:update-versions -DdevelopmentVersion=1.1.13'
+      goals: ' release:update-versions -DdevelopmentVersion=1.1.13 -X'
       publishJUnitResults: false
       jdkVersionOption: 1.11
       mavenOptions: '-Xmx4096m'
