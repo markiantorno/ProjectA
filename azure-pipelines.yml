@@ -9,10 +9,10 @@ strategy:
   matrix:
     linux:
       imageName: "ubuntu-16.04"
-    mac:
-      imageName: "macos-10.14"
-    windows:
-      imageName: "vs2017-win2016"
+    # mac:
+    #   imageName: "macos-10.14"
+    # windows:
+    #   imageName: "vs2017-win2016"
   maxParallel: 3
 
 pool:
@@ -85,6 +85,16 @@ steps:
     displayName: 'Publish Artifact: drop'
     inputs:
       PathtoPublish: '$(build.artifactstagingdirectory)'
+
+  - task: Maven@3
+    displayName: 'Change version in pom.xml to 1.1.13'
+    inputs:
+      mavenPomFile: '$(System.DefaultWorkingDirectory)/pom.xml'
+      # goals: '--batch-mode release:update-versions -DdevelopmentVersion=1.2.0-SNAPSHOT -X'
+      goals: 'versions:set -DnewVersion=1.1.10 -X'
+      publishJUnitResults: false
+      jdkVersionOption: 1.11
+      mavenOptions: '-Xmx4096m'
 
 
 
