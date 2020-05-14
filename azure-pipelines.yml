@@ -86,15 +86,5 @@ steps:
     inputs:
       PathtoPublish: '$(build.artifactstagingdirectory)'
 
-  - task: Maven@3
-    displayName: 'Change version in pom.xml to 1.1.13'
-    inputs:
-      mavenPomFile: '$(System.DefaultWorkingDirectory)/pom.xml'
-      # goals: '--batch-mode release:update-versions -DdevelopmentVersion=1.2.0-SNAPSHOT -X'
-      goals: 'versions:set -DnewVersion=1.1.10 -X'
-      publishJUnitResults: false
-      jdkVersionOption: 1.11
-      mavenOptions: '-Xmx4096m'
-
 
 
