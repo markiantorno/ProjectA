@@ -1,20 +1,11 @@
-Preparation
+I like using all-purpose flour, but you can substitute some of the all-purpose flour for whole wheat or white whole wheat flour. For a gluten-free carrot cake, swap the flour for your favorite gluten-free flour blend.
 
-For the pastry, in a large bowl, sift flour, sugar, and salt. Then add softened butter. Bring the mixture together with your hands, careful not to knead the pastry dough too much or you will make the pastry tough.
+Baking soda helps the cake to rise.
 
-Whisk the egg yolks and add the 2 tablespoons of beaten yolk to the flour mixture. Bring together until smooth. If the dough is too sticky, coating your hands with flour will help. Cover with plastic wrap and then refrigerate for 30 minutes, or until the dough is firm.
+Salt, cinnamon, and vanilla extract make the cake taste amazing.
 
-To make the custard filling, melt sugar and salt with hot water. Mix until dissolved then let cool.
+Oil keeps the cake nice and moist — any neutral flavored oil will work. (Melted coconut oil works, too, but there will be a light coconut flavor in the baked cake.)
 
-Add the rest of the beaten egg yolk. Stir in sugar water and also evaporated milk (if adding vanilla, add now). Stir and combine everything well.
+Sugar makes the cake moist, light, and delicious. I love a combination of white and brown sugar, but you can use one or the other. (Since posting the recipe, some of our readers have asked whether or not we can reduce the sugar called for in the recipe. You can, just keep in mind that the amount we specify will produce the moistest cake.
 
-Strain the filling to ensure no lumps. Chill in the refrigerator.
-
-Preheat the oven to 400˚F (200˚C.)
-
-Take the dough out and divide into 16 equal portions. Spray the tart pan with a light coating of oil. Take one portion of your dough and roll it into a ball and place in your tart shell. Press the shell into the pan with your fingers. Try to make the wrapper uniform in thickness and avoid a thick bottom. Repeat to finish all.
-
-Pour the custard filling into the shells until it is about 80% full. Bake for 15 to 20 minutes until the surface becomes golden brown and a toothpick can stand in the egg tart.
-
-Cool down for several minutes and then take the egg tarts out of the pan. Serve while still warm.
-Enjoy!
+Eggs give the cake structure.
