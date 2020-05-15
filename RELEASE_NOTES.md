@@ -1,11 +1,7 @@
-I like using all-purpose flour, but you can substitute some of the all-purpose flour for whole wheat or white whole wheat flour. For a gluten-free carrot cake, swap the flour for your favorite gluten-free flour blend.
+The method for this carrot cake recipe could not be simpler! If you have a couple of bowls and can stir ingredients together then you can absolutely make this cake! As you can see from our recipe video, all you need to do is combine all the ingredients. Here’s how I like to do it:
 
-Baking soda helps the cake to rise.
+Dry ingredients in one bowl, wet ingredients in another: I like to whisk my dry ingredients together in one bowl until they are well blended. Then I whisk all the wet ingredients together in another bowl.
 
-Salt, cinnamon, and vanilla extract make the cake taste amazing.
+Fold the dry and wet ingredients together: Then I switch to a rubber spatula or large spoon and fold the two — wet and dry ingredients — together until I don’t see any large streaks of flour. (We use the same method when making this easy pineapple upside down cake and this buttery blueberry cake. Both recipes are so good!)
 
-Oil keeps the cake nice and moist — any neutral flavored oil will work. (Melted coconut oil works, too, but there will be a light coconut flavor in the baked cake.)
-
-Sugar makes the cake moist, light, and delicious. I love a combination of white and brown sugar, but you can use one or the other. (Since posting the recipe, some of our readers have asked whether or not we can reduce the sugar called for in the recipe. You can, just keep in mind that the amount we specify will produce the moistest cake.
-
-Eggs give the cake structure.
+Add carrots, nuts, and raisins: When I’ve got the batter ready, I fold in the carrots and if I’m using them, the nuts and raisins.
