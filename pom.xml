@@ -4,11 +4,7 @@
 
     <groupId>org.iantorno</groupId>
     <artifactId>ProjectA</artifactId>
-    <version>2.4.9-SNAPSHOT</version>
-
-
-
-
+    <version>2.5.1-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
