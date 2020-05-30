@@ -1,0 +1,92 @@
+trigger:
+  - release
+  - master
+
+pr:
+  - release
+  - master
+
+# Different users have different machine setups, we run the build three times, on ubuntu, osx, and windows
+strategy:
+  matrix:
+    linux:
+      imageName: "ubuntu-16.04"
+    # mac:
+    #   imageName: "macos-10.14"
+    # windows:
+    #   imageName: "vs2017-win2016"
+  maxParallel: 3
+
+pool:
+  vmImage: $(imageName)
+
+variables:
+  currentImage: $(imageName)
+  VERSION:
+
+steps:
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        [xml]$pomXml = Get-Content .\pom.xml
+        # version
+        Write-Host $pomXml.project.version
+        $version=$pomXml.project.version
+        Write-Host "##vso[task.setvariable variable=version]$version"
+
+  - task: Maven@3
+    inputs:
+      mavenPomFile: 'pom.xml'
+      mavenOptions: '-Xmx3072m'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.8'
+      jdkArchitectureOption: 'x64'
+      publishJUnitResults: true
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      goals: 'package cobertura:cobertura'
+
+  - bash: echo $(version)
+  - bash: echo $(variables.currentImage)
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: "Cobertura"
+      summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/cobertura/coverage.xml"
+      failIfCoverageEmpty: true
+
+  # Azure pipelines cannot pass variables between pipelines, but it can pass files, so we
+  # pass the build id (ex: 1.1.13-SNAPSHOT) as a string in a file. This used to be used for
+  # the nexus upload tool, but we no longer use the stock tool. This is only here for debugging
+  # now, and to remind me of how sad I was when I was trying to get this to work.
+  - bash: |
+      echo $(version)
+      VERSION=$(version)
+      echo "$VERSION" > $(System.DefaultWorkingDirectory)/VERSION
+    condition: and(eq(variables.currentImage, 'ubuntu-16.04'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+  # Copies the VERSION file containing the build id (ex: 1.1.13-SNAPSHOT) to the staging directory
+  - task: CopyFiles@2
+    condition: and(eq(variables.currentImage, 'ubuntu-16.04'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+    inputs:
+      SourceFolder: '$(System.Defaultworkingdirectory)'
+      Contents: "$(System.DefaultWorkingDirectory)/VERSION"
+      TargetFolder: '$(build.artifactstagingdirectory)'
+
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+    inputs:
+      SourceFolder: '$(system.defaultworkingdirectory)'
+      Contents: '$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar'
+      TargetFolder: '$(build.artifactstagingdirectory)'
+    condition: and(eq(variables.currentImage, 'ubuntu-16.04'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+  - task: PublishBuildArtifacts@1
+    condition: and(eq(variables.currentImage, 'ubuntu-16.04'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: 'Publish Artifact: drop'
+    inputs:
+      PathtoPublish: '$(build.artifactstagingdirectory)'
+
+
+
