@@ -1,21 +1,10 @@
-pr: none
-
 trigger:
 - release
 
-# Different users have different machine setups, we run the build three times, on ubuntu, osx, and windows
-strategy:
-  matrix:
-    linux:
-      imageName: "ubuntu-16.04"
-    # mac:
-    #   imageName: "macos-10.14"
-    # windows:
-    #   imageName: "vs2017-win2016"
-  maxParallel: 3
+pr: none
 
 pool:
-  vmImage: $(imageName)
+  vmImage: "ubuntu-16.04"
 
 variables:
   currentImage: $(imageName)
@@ -54,11 +43,9 @@ steps:
       echo $(version)
       VERSION=$(version)
       echo "$VERSION" > $(System.DefaultWorkingDirectory)/VERSION
-    condition: and(eq(variables.currentImage, 'ubuntu-16.04'), eq(variables['Build.SourceBranch'], 'refs/heads/release'))
 
   # Copies the VERSION file containing the build id (ex: 1.1.13-SNAPSHOT) to the staging directory
   - task: CopyFiles@2
-    condition: and(eq(variables.currentImage, 'ubuntu-16.04'), eq(variables['Build.SourceBranch'], 'refs/heads/release'))
     displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
     inputs:
       SourceFolder: '$(System.Defaultworkingdirectory)'
@@ -71,10 +58,8 @@ steps:
       SourceFolder: '$(system.defaultworkingdirectory)'
       Contents: '$(System.DefaultWorkingDirectory)/target/ProjectA-$(version).jar'
       TargetFolder: '$(build.artifactstagingdirectory)'
-    condition: and(eq(variables.currentImage, 'ubuntu-16.04'), eq(variables['Build.SourceBranch'], 'refs/heads/release'))
 
   - task: PublishBuildArtifacts@1
-    condition: and(eq(variables.currentImage, 'ubuntu-16.04'), eq(variables['Build.SourceBranch'], 'refs/heads/release'))
     displayName: 'Publish Artifact: drop'
     inputs:
       PathtoPublish: '$(build.artifactstagingdirectory)'
